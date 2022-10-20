@@ -76,18 +76,19 @@ static void menu_page(List<Plan> plans, int days_to_add)
 }
 static void strelochki(List<Plan> plans, int days_to_add, int position=1)
 {
-    int max_position = 0;
- 
-    foreach (Plan plan in plans)
-    {
-        if (plan.date == DateTime.Now.AddDays(days_to_add).ToShortDateString())
-        {
-            max_position++;
-        }
-    }
     menu_page(plans, days_to_add);
     while (true)
     {
+        int max_position = 0;
+
+        foreach (Plan plan in plans)
+        {
+            if (plan.date == DateTime.Now.AddDays(days_to_add).ToShortDateString())
+            {
+                max_position++;
+            }
+        }
+
         ConsoleKeyInfo klavisha = Console.ReadKey();
 
         if (klavisha.Key == ConsoleKey.UpArrow)
@@ -116,19 +117,20 @@ static void strelochki(List<Plan> plans, int days_to_add, int position=1)
                 position++;
 
             }
-            
-        }
-        Console.Clear();
-        menu_page(plans, days_to_add);
-        Console.SetCursorPosition(0, position);
-        Console.WriteLine("->");
-        Console.SetCursorPosition(0, position);
 
-        if (klavisha.Key == ConsoleKey.LeftArrow)
+        }
+        else if (klavisha.Key == ConsoleKey.LeftArrow)
         {
             days_to_add--;
             position = 1;
             Console.Clear();
+            foreach (Plan plan in plans)
+            {
+                if (plan.date == DateTime.Now.AddDays(days_to_add).ToShortDateString())
+                {
+                    max_position++;
+                }
+            }
             menu_page(plans, days_to_add);
 
         }
@@ -137,9 +139,20 @@ static void strelochki(List<Plan> plans, int days_to_add, int position=1)
             days_to_add++;
             position = 1;
             Console.Clear();
-            menu_page(plans, days_to_add);
+            foreach (Plan plan in plans)
+            {
+                if (plan.date == DateTime.Now.AddDays(days_to_add).ToShortDateString())
+                {
+                    Console.WriteLine(plan.date);
+                    max_position++;
+                }
+            }
         }
-
+        Console.Clear();
+        menu_page(plans, days_to_add);
+        Console.SetCursorPosition(0, position);
+        Console.WriteLine("->");
+        Console.SetCursorPosition(0, position);
 
         if (klavisha.Key == ConsoleKey.Enter)
         {
