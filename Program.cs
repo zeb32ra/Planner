@@ -124,7 +124,7 @@ static void strelochki(List<Plan> plans, int days_to_add, int position=1)
             days_to_add--;
             position = 1;
             Console.Clear();
-            foreach (Plan plan in plans)
+            foreach (Plan plan in plans) // try without
             {
                 if (plan.date == DateTime.Now.AddDays(days_to_add).ToShortDateString())
                 {
@@ -139,7 +139,7 @@ static void strelochki(List<Plan> plans, int days_to_add, int position=1)
             days_to_add++;
             position = 1;
             Console.Clear();
-            foreach (Plan plan in plans)
+            foreach (Plan plan in plans) // try without
             {
                 if (plan.date == DateTime.Now.AddDays(days_to_add).ToShortDateString())
                 {
@@ -164,6 +164,12 @@ static void strelochki(List<Plan> plans, int days_to_add, int position=1)
         {
             break;
         }
+        if (klavisha.Key == ConsoleKey.D)
+        {
+            new_plans(days_to_add, plans);
+            Console.Clear();
+            menu_page(plans, days_to_add);
+        }
     }
 }
 static void discription(int days_to_add, List<Plan> plans, int cursor_position)
@@ -184,5 +190,30 @@ static void discription(int days_to_add, List<Plan> plans, int cursor_position)
     }
 
 }
+static Plan new_plans(int days_to_add, List<Plan> plans)
+{
+    Plan plan = new Plan();
+    plans.Add(plan);
+    Console.Clear();
+    string date_to_output = DateTime.Now.AddDays(days_to_add).ToShortDateString();
+    int number = 0;
+    plan.date = DateTime.Now.AddDays(days_to_add).ToShortDateString();
+    
+    plan.DateTime = DateTime.Now.AddDays(days_to_add);
+    foreach (Plan i in plans)
+    {
+        if (i.date == date_to_output)
+        {
+            number++;
 
+        }
+    }
+    plan.position = number;
+    Console.WriteLine("Введите название заметки");
+    plan.name = Console.ReadLine();
+    Console.WriteLine("Введите описание заметки");
+    plan.description = Console.ReadLine();
+
+    return plan;
+}
 
